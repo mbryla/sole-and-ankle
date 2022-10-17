@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 
 import { COLORS, WEIGHTS } from '../../constants';
 import Logo from '../Logo';
+import Spacer from '../Spacer';
 import SuperHeader from '../SuperHeader';
 
 const Header = () => {
@@ -21,6 +22,7 @@ const Header = () => {
           <NavLink href="/kids">Kids</NavLink>
           <NavLink href="/collections">Collections</NavLink>
         </Nav>
+        <Spacer axis="horizontal" size="140" />
       </MainHeader>
     </header>
   );
