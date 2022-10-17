@@ -40,11 +40,19 @@ const ShoeCard = ({
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price reduced={variant === 'on-sale'}>{formatPrice(price)}</Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          {variant === 'on-sale' && (
+            <SalePrice>{formatPrice(salePrice)}</SalePrice>
+          )}
         </Row>
+        {variant !== 'default' && (
+          <VariantBadge variant={variant}>
+            {variant === 'on-sale' ? 'Sale' : 'Just released!'}
+          </VariantBadge>
+        )}
       </Wrapper>
     </Link>
   );
@@ -57,10 +65,14 @@ const Link = styled.a`
   flex: 1 1 340px;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+  position: relative;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
+  overflow: hidden;
+  border-radius: 16px 16px 4px 4px;
 `;
 
 const Image = styled.img`
@@ -69,6 +81,8 @@ const Image = styled.img`
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Name = styled.h3`
@@ -76,15 +90,33 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  text-decoration: ${(props) => (props.reduced ? 'line-through' : 'none')};
+  color: ${(props) => (props.reduced ? COLORS.gray[700] : 'inherit')};
+`;
+
+const SalePrice = styled.span`
+  color: ${COLORS.primary};
+  font-weight: ${WEIGHTS.medium};
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
 `;
 
-const SalePrice = styled.span`
+const VariantBadge = styled.span`
+  display: block;
+  position: absolute;
+  top: 12px;
+  right: -4px;
+
+  padding: 10px;
+  border-radius: 2px;
+
+  background-color: ${(props) =>
+    props.variant === 'new-release' ? COLORS.secondary : COLORS.primary};
+  color: white;
   font-weight: ${WEIGHTS.medium};
-  color: ${COLORS.primary};
 `;
 
 export default ShoeCard;
